@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.cmake-tools",
+    "ms-python.python",
+    "ms-python.black-formatter",
+    "redhat.vscode-xml",
+    "ranch-hand-robotics.rde-pack"
+  ]
+}
