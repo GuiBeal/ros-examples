@@ -11,13 +11,13 @@ public:
 
 private:
   void cbSubscription(const std_msgs::msg::Int64::SharedPtr pMsg);
-  void cbParameters(const std::vector<rclcpp::Parameter> &params); // optional
+  void cbParameters(const std::vector<rclcpp::Parameter> &params);
 
   rclcpp::Subscription<std_msgs::msg::Int64>::SharedPtr pSubscription_;
 
   std::string topicName_ = "number";
 
-  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_; // optional
+  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
 };
 
 #endif

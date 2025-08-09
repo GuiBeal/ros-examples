@@ -11,7 +11,7 @@ public:
 
 private:
   void cbPublish();
-  void cbParameters(const std::vector<rclcpp::Parameter> &params); // optional
+  void cbParameters(const std::vector<rclcpp::Parameter> &params);
 
   rclcpp::TimerBase::SharedPtr pTimerPublisher_;
   rclcpp::Publisher<std_msgs::msg::Int64>::SharedPtr pPublisher_;
@@ -20,7 +20,7 @@ private:
   double period_ = 1.0;
   int64_t number_ = 0;
 
-  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_; // optional
+  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
 };
 
 #endif
