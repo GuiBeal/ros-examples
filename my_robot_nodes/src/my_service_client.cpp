@@ -27,14 +27,14 @@ bool MyClientNode::validateFiscalCode(const std::string & code)
   auto pRequest = std::make_shared<my_robot_interfaces::srv::ValidateFiscalCode::Request>();
   pRequest->code = code;
 
-  auto future = pClient_->async_send_request(pRequest);  // could also received a callback
+  auto future = pClient_->async_send_request(pRequest);  // could also receive a callback
 
   const auto futureStatus =
     rclcpp::spin_until_future_complete(get_node_base_interface(), future, 10s);
   switch (futureStatus)  // not really a good error handling below
   {
     case rclcpp::FutureReturnCode::SUCCESS: {
-      const auto pResponse = future.future.get();
+      const auto pResponse = future.get();
       return pResponse->valid;
     }
     case rclcpp::FutureReturnCode::TIMEOUT: {
