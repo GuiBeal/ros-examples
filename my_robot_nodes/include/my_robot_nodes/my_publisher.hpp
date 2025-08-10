@@ -11,7 +11,7 @@ public:
 
 private:
   void cbPublish();
-  void cbParameters(const std::vector<rclcpp::Parameter> &params);
+  void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
   rclcpp::TimerBase::SharedPtr pTimerPublisher_;
   rclcpp::Publisher<std_msgs::msg::Int64>::SharedPtr pPublisher_;

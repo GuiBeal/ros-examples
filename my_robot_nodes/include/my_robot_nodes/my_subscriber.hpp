@@ -11,7 +11,7 @@ public:
 
 private:
   void cbSubscription(const std_msgs::msg::Int64::SharedPtr pMsg);
-  void cbParameters(const std::vector<rclcpp::Parameter> &params);
+  void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
   rclcpp::Subscription<std_msgs::msg::Int64>::SharedPtr pSubscription_;
 
