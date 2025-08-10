@@ -12,13 +12,9 @@ public:
 
 private:
   void cbSubscription(const my_robot_interfaces::msg::Time::SharedPtr pMsg);
-  void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
   rclcpp::Subscription<my_robot_interfaces::msg::Time>::SharedPtr pSubscription_;
-
-  std::string topicName_ = "clock";
-
-  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
+  const std::string topicName_ = "clock";
 };
 
 #endif

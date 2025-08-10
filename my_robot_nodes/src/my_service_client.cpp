@@ -5,13 +5,6 @@ using namespace std::placeholders;
 
 MyClientNode::MyClientNode() : Node("my_service_client")
 {
-  declare_parameter("service_name", "validate_fiscal_code");
-
-  serviceName_ = get_parameter("service_name").as_string();
-
-  pCallbackParams_ =
-    this->add_post_set_parameters_callback(std::bind(&MyClientNode::cbParameters, this, _1));
-
   pClient_ = create_client<my_robot_interfaces::srv::ValidateFiscalCode>(
     serviceName_, rclcpp::ServicesQoS());
 
@@ -50,23 +43,6 @@ bool MyClientNode::validateFiscalCode(const std::string & code)
       RCLCPP_ERROR(get_logger(), "Request returned unknown status.");
       throw "Request returned unknown status.";
     }
-  }
-}
-
-void MyClientNode::cbParameters(const std::vector<rclcpp::Parameter> & params)
-{
-  bool resetClient = false;
-  for (const auto & param : params) {
-    if (param.get_name() == "service_name") {
-      serviceName_ = param.as_string();
-      resetClient = true;
-    }
-  }
-
-  if (resetClient) {
-    pClient_.reset();
-    pClient_ = create_client<my_robot_interfaces::srv::ValidateFiscalCode>(
-      serviceName_, rclcpp::ServicesQoS());
   }
 }
 

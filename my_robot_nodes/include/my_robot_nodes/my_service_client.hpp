@@ -13,12 +13,8 @@ public:
   bool validateFiscalCode(const std::string & code);
 
 private:
-  void cbParameters(const std::vector<rclcpp::Parameter> & params);
-
   rclcpp::Client<my_robot_interfaces::srv::ValidateFiscalCode>::SharedPtr pClient_;
-  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
-
-  std::string serviceName_ = "validate_fiscal_code";
+  const std::string serviceName_ = "validate_fiscal_code";
 };
 
 #endif

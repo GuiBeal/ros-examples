@@ -1,16 +1,9 @@
-#include "my_robot_nodes/my_subscriber.hpp"
+#include "my_robot_nodes/my_topic_subscriber.hpp"
 
 using namespace std::placeholders;
 
 MySubscriberNode::MySubscriberNode() : Node("my_subscriber")
 {
-  declare_parameter("topic_name", "clock");
-
-  topicName_ = get_parameter("topic_name").as_string();
-
-  pCallbackParams_ =
-    this->add_post_set_parameters_callback(std::bind(&MySubscriberNode::cbParameters, this, _1));
-
   pSubscription_ = create_subscription<my_robot_interfaces::msg::Time>(
     topicName_, rclcpp::SystemDefaultsQoS(),
     std::bind(&MySubscriberNode::cbSubscription, this, _1));
@@ -28,24 +21,6 @@ void MySubscriberNode::cbSubscription(const my_robot_interfaces::msg::Time::Shar
   std::string formatted_time = std::string(buffer) + "." + std::to_string(pMsg->data.nanosec);
 
   RCLCPP_INFO_STREAM(get_logger(), "Current date and time is " << formatted_time << ".");
-}
-
-void MySubscriberNode::cbParameters(const std::vector<rclcpp::Parameter> & params)
-{
-  bool resetSubscription = false;
-  for (const auto & param : params) {
-    if (param.get_name() == "topic_name") {
-      topicName_ = param.as_string();
-      resetSubscription = true;
-    }
-  }
-
-  if (resetSubscription) {
-    pSubscription_.reset();
-    pSubscription_ = create_subscription<my_robot_interfaces::msg::Time>(
-      topicName_, rclcpp::SystemDefaultsQoS(),
-      std::bind(&MySubscriberNode::cbSubscription, this, _1));
-  }
 }
 
 int main(int argc, char ** argv)

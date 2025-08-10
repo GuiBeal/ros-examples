@@ -12,15 +12,11 @@ public:
 
 private:
   void cbPublish();
-  void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
   rclcpp::TimerBase::SharedPtr pTimerPublisher_;
   rclcpp::Publisher<my_robot_interfaces::msg::Time>::SharedPtr pPublisher_;
-
-  std::string topicName_ = "clock";
+  const std::string topicName_ = "clock";
   double period_ = 0.1;
-
-  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
 };
 
 #endif

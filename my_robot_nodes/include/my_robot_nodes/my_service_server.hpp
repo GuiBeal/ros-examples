@@ -14,11 +14,9 @@ private:
   void cbService(
     const my_robot_interfaces::srv::ValidateFiscalCode::Request::SharedPtr pRequest,
     const my_robot_interfaces::srv::ValidateFiscalCode::Response::SharedPtr pResponse);
-  void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
   rclcpp::Service<my_robot_interfaces::srv::ValidateFiscalCode>::SharedPtr pServer_;
-  PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
-  std::string serviceName_ = "validate_fiscal_code";
+  const std::string serviceName_ = "validate_fiscal_code";
 };
 
 #endif

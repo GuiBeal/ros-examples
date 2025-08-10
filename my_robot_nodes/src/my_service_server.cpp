@@ -7,13 +7,6 @@ using namespace std::placeholders;
 
 MyServerNode::MyServerNode() : Node("my_service_server")
 {
-  declare_parameter("service_name", "validate_fiscal_code");
-
-  serviceName_ = get_parameter("service_name").as_string();
-
-  pCallbackParams_ =
-    this->add_post_set_parameters_callback(std::bind(&MyServerNode::cbParameters, this, _1));
-
   pServer_ = create_service<my_robot_interfaces::srv::ValidateFiscalCode>(
     serviceName_, std::bind(&MyServerNode::cbService, this, _1, _2), rclcpp::ServicesQoS());
 
@@ -66,23 +59,6 @@ void MyServerNode::cbService(
   const u_int secondVerifier = tmp < 2 ? 0 : 11 - tmp;
 
   pResponse->valid = 10 * firstVerifier + secondVerifier == verifier;
-}
-
-void MyServerNode::cbParameters(const std::vector<rclcpp::Parameter> & params)
-{
-  bool resetServer = false;
-  for (const auto & param : params) {
-    if (param.get_name() == "service_name") {
-      serviceName_ = param.as_string();
-      resetServer = true;
-    }
-  }
-
-  if (resetServer) {
-    pServer_.reset();
-    pServer_ = create_service<my_robot_interfaces::srv::ValidateFiscalCode>(
-      serviceName_, std::bind(&MyServerNode::cbService, this, _1, _2));
-  }
 }
 
 int main(int argc, char ** argv)
