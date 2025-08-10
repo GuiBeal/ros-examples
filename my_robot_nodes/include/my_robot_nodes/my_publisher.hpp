@@ -2,7 +2,8 @@
 #define MY_ROBOT_NODES__MY_PUBLISHER_HPP_
 
 #include <rclcpp/rclcpp.hpp>
-#include <std_msgs/msg/int64.hpp>
+
+#include "my_robot_interfaces/msg/time.hpp"
 
 class MyPublisherNode : public rclcpp::Node
 {
@@ -14,11 +15,10 @@ private:
   void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
   rclcpp::TimerBase::SharedPtr pTimerPublisher_;
-  rclcpp::Publisher<std_msgs::msg::Int64>::SharedPtr pPublisher_;
+  rclcpp::Publisher<my_robot_interfaces::msg::Time>::SharedPtr pPublisher_;
 
-  std::string topicName_ = "number";
-  double period_ = 1.0;
-  int64_t number_ = 0;
+  std::string topicName_ = "clock";
+  double period_ = 0.1;
 
   PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
 };

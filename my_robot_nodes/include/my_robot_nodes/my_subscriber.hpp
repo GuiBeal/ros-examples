@@ -2,7 +2,8 @@
 #define MY_ROBOT_NODES__MY_SUBSCRIBER_HPP_
 
 #include <rclcpp/rclcpp.hpp>
-#include <std_msgs/msg/int64.hpp>
+
+#include "my_robot_interfaces/msg/time.hpp"
 
 class MySubscriberNode : public rclcpp::Node
 {
@@ -10,12 +11,12 @@ public:
   MySubscriberNode();
 
 private:
-  void cbSubscription(const std_msgs::msg::Int64::SharedPtr pMsg);
+  void cbSubscription(const my_robot_interfaces::msg::Time::SharedPtr pMsg);
   void cbParameters(const std::vector<rclcpp::Parameter> & params);
 
-  rclcpp::Subscription<std_msgs::msg::Int64>::SharedPtr pSubscription_;
+  rclcpp::Subscription<my_robot_interfaces::msg::Time>::SharedPtr pSubscription_;
 
-  std::string topicName_ = "number";
+  std::string topicName_ = "clock";
 
   PostSetParametersCallbackHandle::SharedPtr pCallbackParams_;
 };
