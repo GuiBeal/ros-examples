@@ -31,16 +31,13 @@ bool MyClientNode::validateFiscalCode(const std::string & code)
       return pResponse->valid;
     }
     case rclcpp::FutureReturnCode::TIMEOUT: {
-      RCLCPP_ERROR(get_logger(), "Request timed out.");
       pClient_->remove_pending_request(future.request_id);
       throw "Request timed out.";
     }
     case rclcpp::FutureReturnCode::INTERRUPTED: {
-      RCLCPP_ERROR(get_logger(), "Request interrupted.");
       throw "Request interrupted.";
     }
     default: {
-      RCLCPP_ERROR(get_logger(), "Request returned unknown status.");
       throw "Request returned unknown status.";
     }
   }

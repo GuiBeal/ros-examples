@@ -13,6 +13,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Turtle.msg"
   "srv/SetState.srv"
   "srv/ValidateFiscalCode.srv"
+  "action/MoveRobot.action"
 )
 
 ament_package()
