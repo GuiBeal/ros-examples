@@ -11,7 +11,7 @@
   * [`time_topic.launch.xml`](my_robot_bringup/launch/time_topic.launch.xml)
     * Launch Arguments
     * Remapping
-    * Node **Parameters**
+    * Node Parameters
 
 ## Validate Fiscal Code Service Server-Client
 
@@ -39,3 +39,24 @@
   * [`move_robot_action.launch.xml`](my_robot_bringup/launch/move_robot_action.launch.xml)
     * Laung Arguments
     * Node Parameters from File
+
+## Robot Description
+
+* `my_robot_description`
+  * [`my_robot.urdf.xacro`](my_robot_description/urdf/my_robot.urdf.xacro)
+    * Joints and Links
+    * ROS2 Control
+    * Xacro
+      * Property
+      * Macro
+      * Include
+
+## Robot Launcher
+
+* `my_robot_bringup`
+  * [my_robot.launch.xml](my_robot_bringup/launch/my_robot.launch.xml) / [my_robot.launch.py](my_robot_bringup/launch/my_robot.launch.py)
+    * Launch Arguments
+    * Node Parameters
+    * Node Parameters from File
+    * ROS2 Control
+    * RViz2
