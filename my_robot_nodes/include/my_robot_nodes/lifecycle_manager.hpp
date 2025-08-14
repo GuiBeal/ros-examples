@@ -5,10 +5,10 @@
 #include <lifecycle_msgs/srv/change_state.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-class MyLifecycleManager : public rclcpp::Node
+class LifecycleManager : public rclcpp::Node
 {
 public:
-  MyLifecycleManager();
+  LifecycleManager();
 
   bool changeState(const lifecycle_msgs::msg::Transition & transition);
   void initialize();

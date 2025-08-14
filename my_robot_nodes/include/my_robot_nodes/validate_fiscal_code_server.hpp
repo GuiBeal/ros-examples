@@ -1,14 +1,14 @@
-#ifndef MY_ROBOT_NODES__MY_SERVICE_SERVER_HPP_
-#define MY_ROBOT_NODES__MY_SERVICE_SERVER_HPP_
+#ifndef MY_ROBOT_NODES__VALIDATE_FISCAL_CODE_SERVER_HPP_
+#define MY_ROBOT_NODES__VALIDATE_FISCAL_CODE_SERVER_HPP_
 
 #include <rclcpp/rclcpp.hpp>
 
 #include "my_robot_interfaces/srv/validate_fiscal_code.hpp"
 
-class MyServerNode : public rclcpp::Node
+class ValidateFiscalCodeServer : public rclcpp::Node
 {
 public:
-  MyServerNode();
+  ValidateFiscalCodeServer();
 
 private:
   void cbService(

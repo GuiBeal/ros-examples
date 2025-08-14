@@ -2,12 +2,12 @@
   <arg name="period" default="0.1" description="Publication period" />
   <arg name="topic_name" default="clock" description="Topic name" />
 
-  <node pkg="my_robot_nodes" exec="my_topic_publisher">
+  <node pkg="my_robot_nodes" exec="time_publisher">
     <param name="period" value="$(var period)" />
     <remap from="/clock" to="/$(var topic_name)" />
   </node>
 
-  <node pkg="my_robot_nodes" exec="my_topic_subscriber">
+  <node pkg="my_robot_nodes" exec="time_subscriber">
     <remap from="/clock" to="/$(var topic_name)" />
   </node>
 </launch>

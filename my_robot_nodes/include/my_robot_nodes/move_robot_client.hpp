@@ -1,5 +1,5 @@
-#ifndef MY_ROBOT_NODES__MY_ACTION_CLIENT_HPP
-#define MY_ROBOT_NODES__MY_ACTION_CLIENT_HPP
+#ifndef MY_ROBOT_NODES__MOVE_ROBOT_CLIENT_HPP
+#define MY_ROBOT_NODES__MOVE_ROBOT_CLIENT_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
@@ -8,10 +8,10 @@
 
 using GoalHandle = rclcpp_action::ClientGoalHandle<my_robot_interfaces::action::MoveRobot>;
 
-class MyActionClient : public rclcpp::Node
+class MoveRobotClient : public rclcpp::Node
 {
 public:
-  MyActionClient();
+  MoveRobotClient();
 
   void sendGoal(const double target, const double velocity);
   void cancelGoal();

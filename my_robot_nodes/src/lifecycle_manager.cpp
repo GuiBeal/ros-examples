@@ -1,8 +1,8 @@
-#include "my_robot_nodes/my_lifecycle_manager.hpp"
+#include "my_robot_nodes/lifecycle_manager.hpp"
 
 using namespace std::chrono_literals;
 
-MyLifecycleManager::MyLifecycleManager() : Node("my_lifecycle_manager")
+LifecycleManager::LifecycleManager() : Node("lifecycle_manager")
 {
   declare_parameter("managed_node_name", rclcpp::ParameterType::PARAMETER_STRING);
 
@@ -14,7 +14,7 @@ MyLifecycleManager::MyLifecycleManager() : Node("my_lifecycle_manager")
   RCLCPP_INFO(get_logger(), "My lifecycle manager started.");
 }
 
-bool MyLifecycleManager::changeState(const lifecycle_msgs::msg::Transition & transition)
+bool LifecycleManager::changeState(const lifecycle_msgs::msg::Transition & transition)
 {
   while (!pClient_->wait_for_service(10s)) {
     RCLCPP_WARN(this->get_logger(), "Waiting for managed node...");
@@ -29,7 +29,7 @@ bool MyLifecycleManager::changeState(const lifecycle_msgs::msg::Transition & tra
   return futureStatus == rclcpp::FutureReturnCode::SUCCESS;
 }
 
-void MyLifecycleManager::initialize()
+void LifecycleManager::initialize()
 {
   lifecycle_msgs::msg::Transition transition;
 
@@ -51,7 +51,7 @@ void MyLifecycleManager::initialize()
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  auto pNode = std::make_shared<MyLifecycleManager>();
+  auto pNode = std::make_shared<LifecycleManager>();
   pNode->initialize();
   rclcpp::shutdown();
   return 0;

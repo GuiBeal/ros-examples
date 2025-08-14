@@ -1,41 +1,41 @@
-#include "my_robot_nodes/my_lifecycle_action_server.hpp"
+#include "my_robot_nodes/move_robot_server.hpp"
 
 using namespace std::placeholders;
 
-MyLifecycleServer::MyLifecycleServer() : LifecycleNode("my_lifecycle_action_server")
+MoveRobotServer::MoveRobotServer() : LifecycleNode("move_robot_server")
 {
   RCLCPP_INFO(get_logger(), "My action server started.");
 }
 
-LifecycleCallbackReturn MyLifecycleServer::on_configure(const rclcpp_lifecycle::State & state)
+LifecycleCallbackReturn MoveRobotServer::on_configure(const rclcpp_lifecycle::State & state)
 {
   configure();
   RCLCPP_INFO(get_logger(), "My action server configured.");
   return rclcpp_lifecycle::LifecycleNode::on_configure(state);
 }
 
-LifecycleCallbackReturn MyLifecycleServer::on_cleanup(const rclcpp_lifecycle::State & state)
+LifecycleCallbackReturn MoveRobotServer::on_cleanup(const rclcpp_lifecycle::State & state)
 {
   cleanup();
   RCLCPP_INFO(get_logger(), "My action server unconfigured.");
   return rclcpp_lifecycle::LifecycleNode::on_cleanup(state);
 }
 
-LifecycleCallbackReturn MyLifecycleServer::on_activate(const rclcpp_lifecycle::State & state)
+LifecycleCallbackReturn MoveRobotServer::on_activate(const rclcpp_lifecycle::State & state)
 {
   activate();
   RCLCPP_INFO(get_logger(), "My action server activated.");
   return rclcpp_lifecycle::LifecycleNode::on_activate(state);
 }
 
-LifecycleCallbackReturn MyLifecycleServer::on_deactivate(const rclcpp_lifecycle::State & state)
+LifecycleCallbackReturn MoveRobotServer::on_deactivate(const rclcpp_lifecycle::State & state)
 {
   deactivate();
   RCLCPP_INFO(get_logger(), "My action server deactivated.");
   return rclcpp_lifecycle::LifecycleNode::on_deactivate(state);
 }
 
-LifecycleCallbackReturn MyLifecycleServer::on_shutdown(const rclcpp_lifecycle::State & state)
+LifecycleCallbackReturn MoveRobotServer::on_shutdown(const rclcpp_lifecycle::State & state)
 {
   deactivate();
   cleanup();
@@ -43,7 +43,7 @@ LifecycleCallbackReturn MyLifecycleServer::on_shutdown(const rclcpp_lifecycle::S
   return rclcpp_lifecycle::LifecycleNode::on_shutdown(state);
 }
 
-void MyLifecycleServer::configure()
+void MoveRobotServer::configure()
 {
   declare_parameter("robot_name", "robot");
   declare_parameter("min_position", 0.0);
@@ -84,15 +84,15 @@ void MyLifecycleServer::configure()
 
   const std::string actionName = "move_" + robotName_;
   pServer_ = rclcpp_action::create_server<my_robot_interfaces::action::MoveRobot>(
-    this, actionName, std::bind(&MyLifecycleServer::cbHandleGoal, this, _1, _2),
-    std::bind(&MyLifecycleServer::cbHandleCancel, this, _1),
-    std::bind(&MyLifecycleServer::cbHandleAccepted, this, _1),
+    this, actionName, std::bind(&MoveRobotServer::cbHandleGoal, this, _1, _2),
+    std::bind(&MoveRobotServer::cbHandleCancel, this, _1),
+    std::bind(&MoveRobotServer::cbHandleAccepted, this, _1),
     rcl_action_server_get_default_options(), pCallbackGroup_);
 
   position_ = initialPosition;
 }
 
-void MyLifecycleServer::cleanup()
+void MoveRobotServer::cleanup()
 {
   this->undeclare_parameter("robot_name");
   this->undeclare_parameter("min_position");
@@ -102,9 +102,9 @@ void MyLifecycleServer::cleanup()
   pCallbackGroup_.reset();
 }
 
-void MyLifecycleServer::activate() { isActivated_ = true; }
+void MoveRobotServer::activate() { isActivated_ = true; }
 
-void MyLifecycleServer::deactivate()
+void MoveRobotServer::deactivate()
 {
   isActivated_ = false;
   if (pGoalHandle_ && pGoalHandle_->is_active()) {
@@ -112,7 +112,7 @@ void MyLifecycleServer::deactivate()
   }
 }
 
-rclcpp_action::GoalResponse MyLifecycleServer::cbHandleGoal(
+rclcpp_action::GoalResponse MoveRobotServer::cbHandleGoal(
   const rclcpp_action::GoalUUID & /*uuid*/,
   my_robot_interfaces::action::MoveRobot::Goal::ConstSharedPtr pGoal)
 {
@@ -147,14 +147,14 @@ rclcpp_action::GoalResponse MyLifecycleServer::cbHandleGoal(
   return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
 }
 
-rclcpp_action::CancelResponse MyLifecycleServer::cbHandleCancel(
+rclcpp_action::CancelResponse MoveRobotServer::cbHandleCancel(
   const std::shared_ptr<GoalHandle> /*pGoalHandle*/)
 {
   RCLCPP_INFO(this->get_logger(), "Cancel request accepted.");
   return rclcpp_action::CancelResponse::ACCEPT;
 }
 
-void MyLifecycleServer::cbHandleAccepted(const std::shared_ptr<GoalHandle> pGoalHandle)
+void MoveRobotServer::cbHandleAccepted(const std::shared_ptr<GoalHandle> pGoalHandle)
 {
   {
     std::lock_guard<std::mutex> lock(mutexGoalHandle_);
@@ -163,7 +163,7 @@ void MyLifecycleServer::cbHandleAccepted(const std::shared_ptr<GoalHandle> pGoal
   executeGoal(pGoalHandle);
 }
 
-void MyLifecycleServer::executeGoal(const std::shared_ptr<GoalHandle> pGoalHandle)
+void MoveRobotServer::executeGoal(const std::shared_ptr<GoalHandle> pGoalHandle)
 {
   const auto target = pGoalHandle->get_goal()->position;
   const auto velocity = pGoalHandle->get_goal()->velocity;
@@ -230,7 +230,7 @@ int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
-  auto pNode = std::make_shared<MyLifecycleServer>();
+  auto pNode = std::make_shared<MoveRobotServer>();
 
   rclcpp::executors::MultiThreadedExecutor executor;
   executor.add_node(pNode->get_node_base_interface());

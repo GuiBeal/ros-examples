@@ -1,9 +1,9 @@
-#include "my_robot_nodes/my_service_client.hpp"
+#include "my_robot_nodes/validate_fiscal_code_client.hpp"
 
 using namespace std::chrono_literals;
 using namespace std::placeholders;
 
-MyClientNode::MyClientNode() : Node("my_service_client")
+ValidateFiscalCodeClient::ValidateFiscalCodeClient() : Node("validate_fiscal_code_client")
 {
   pClient_ = create_client<my_robot_interfaces::srv::ValidateFiscalCode>(
     serviceName_, rclcpp::ServicesQoS());
@@ -11,7 +11,7 @@ MyClientNode::MyClientNode() : Node("my_service_client")
   RCLCPP_INFO(get_logger(), "My service client started.");
 }
 
-bool MyClientNode::validateFiscalCode(const std::string & code)
+bool ValidateFiscalCodeClient::validateFiscalCode(const std::string & code)
 {
   while (!pClient_->wait_for_service(1s)) {
     RCLCPP_WARN(this->get_logger(), "Waiting for server...");
@@ -46,7 +46,7 @@ bool MyClientNode::validateFiscalCode(const std::string & code)
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  const auto pNode = std::make_shared<MyClientNode>();
+  const auto pNode = std::make_shared<ValidateFiscalCodeClient>();
   for (const auto & code : {"610.420.070-20", "123.456.789-10"}) {
     const bool valid = pNode->validateFiscalCode(code);
     RCLCPP_INFO(pNode->get_logger(), "Fiscal code %s is %s.", code, valid ? "valid" : "invalid");

@@ -1,14 +1,14 @@
-#ifndef MY_ROBOT_NODES__MY_PUBLISHER_HPP_
-#define MY_ROBOT_NODES__MY_PUBLISHER_HPP_
+#ifndef MY_ROBOT_NODES__TIME_PUBLISHER_HPP_
+#define MY_ROBOT_NODES__TIME_PUBLISHER_HPP_
 
 #include <rclcpp/rclcpp.hpp>
 
 #include "my_robot_interfaces/msg/time.hpp"
 
-class MyPublisherNode : public rclcpp::Node
+class TimePublisher : public rclcpp::Node
 {
 public:
-  MyPublisherNode();
+  TimePublisher();
 
 private:
   void cbPublish();

@@ -1,11 +1,11 @@
-#include "my_robot_nodes/my_action_client.hpp"
+#include "my_robot_nodes/move_robot_client.hpp"
 
 #include <thread>
 
 using namespace std::chrono_literals;
 using namespace std::placeholders;
 
-MyActionClient::MyActionClient() : Node("my_action_client")
+MoveRobotClient::MoveRobotClient() : Node("move_robot_client")
 {
   pCallbackGroup_ = create_callback_group(rclcpp::CallbackGroupType::Reentrant);
 
@@ -15,7 +15,7 @@ MyActionClient::MyActionClient() : Node("my_action_client")
   RCLCPP_INFO(get_logger(), "My action client started.");
 }
 
-void MyActionClient::sendGoal(const double target, const double velocity)
+void MoveRobotClient::sendGoal(const double target, const double velocity)
 {
   while (!pClient_->wait_for_action_server(1s)) {
     RCLCPP_WARN(this->get_logger(), "Waiting for server...");
@@ -26,16 +26,16 @@ void MyActionClient::sendGoal(const double target, const double velocity)
   goal.velocity = velocity;
 
   rclcpp_action::Client<my_robot_interfaces::action::MoveRobot>::SendGoalOptions options;
-  options.goal_response_callback = std::bind(&MyActionClient::cbGoalResponse, this, _1);
-  options.feedback_callback = std::bind(&MyActionClient::cbGoalFeedback, this, _1, _2);
-  options.result_callback = std::bind(&MyActionClient::cbGoalResult, this, _1);
+  options.goal_response_callback = std::bind(&MoveRobotClient::cbGoalResponse, this, _1);
+  options.feedback_callback = std::bind(&MoveRobotClient::cbGoalFeedback, this, _1, _2);
+  options.result_callback = std::bind(&MoveRobotClient::cbGoalResult, this, _1);
 
   RCLCPP_INFO(get_logger(), "Sending goal.");
   pClient_->async_send_goal(goal, options);
   rclcpp::sleep_for(1s);  // artificial delay
 }
 
-void MyActionClient::cancelGoal()
+void MoveRobotClient::cancelGoal()
 {
   std::lock_guard<std::mutex> lock(mutexGoalHandle_);
   if (!pGoalHandle_) {
@@ -49,7 +49,7 @@ void MyActionClient::cancelGoal()
   rclcpp::sleep_for(1s);  // artificial delay
 }
 
-void MyActionClient::cbGoalResponse(const GoalHandle::SharedPtr & pGoalHandle)
+void MoveRobotClient::cbGoalResponse(const GoalHandle::SharedPtr & pGoalHandle)
 {
   if (!pGoalHandle) {
     RCLCPP_INFO(get_logger(), "Goal rejected.");
@@ -62,14 +62,14 @@ void MyActionClient::cbGoalResponse(const GoalHandle::SharedPtr & pGoalHandle)
   RCLCPP_INFO(get_logger(), "Goal accepted.");
 }
 
-void MyActionClient::cbGoalFeedback(
+void MoveRobotClient::cbGoalFeedback(
   const GoalHandle::SharedPtr & /*pGoalHandle*/,
   const my_robot_interfaces::action::MoveRobot::Feedback::ConstSharedPtr pFeedback)
 {
   RCLCPP_INFO(get_logger(), "Current position is %f.", pFeedback->position);
 }
 
-void MyActionClient::cbGoalResult(const GoalHandle::WrappedResult & result)
+void MoveRobotClient::cbGoalResult(const GoalHandle::WrappedResult & result)
 {
   {
     std::lock_guard<std::mutex> lock(mutexGoalHandle_);
@@ -100,7 +100,7 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
   rclcpp::sleep_for(1s);
 
-  auto pNode = std::make_shared<MyActionClient>();
+  auto pNode = std::make_shared<MoveRobotClient>();
 
   std::thread tSpin([pNode]() {
     rclcpp::executors::MultiThreadedExecutor executor;

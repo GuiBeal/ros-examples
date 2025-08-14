@@ -1,9 +1,9 @@
-my_lifecycle_action_server:
+move_robot_server:
   ros__parameters:
     update_rate: 5.0
     min_position: -100.0
     max_position: 100.0
 
-my_lifecycle_manager:
+lifecycle_manager:
   ros__parameters:
-    managed_node_name: my_lifecycle_action_server
+    managed_node_name: move_robot_server

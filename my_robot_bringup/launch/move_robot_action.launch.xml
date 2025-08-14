@@ -1,0 +1,15 @@
+<launch>
+  <arg name="config_path"
+    default="$(find-pkg-share my_robot_bringup)/config/move_robot_action.yaml"
+    description="Path to node config file" />
+
+  <node pkg="my_robot_nodes" exec="move_robot_server">
+    <param from="$(var config_path)" />
+  </node>
+
+  <node pkg="my_robot_nodes" exec="lifecycle_manager">
+    <param from="$(var config_path)" />
+  </node>
+
+  <node pkg="my_robot_nodes" exec="move_robot_client" />
+</launch>

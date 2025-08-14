@@ -1,5 +1,5 @@
-#ifndef MY_ROBOT_NODES__MY_LIFECYCLE_NODE_HPP
-#define MY_ROBOT_NODES__MY_LIFECYCLE_NODE_HPP
+#ifndef MY_ROBOT_NODES__MOVE_ROBOT_SERVER_HPP
+#define MY_ROBOT_NODES__MOVE_ROBOT_SERVER_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
@@ -12,10 +12,10 @@ using LifecycleCallbackReturn =
 
 using GoalHandle = rclcpp_action::ServerGoalHandle<my_robot_interfaces::action::MoveRobot>;
 
-class MyLifecycleServer : public rclcpp_lifecycle::LifecycleNode
+class MoveRobotServer : public rclcpp_lifecycle::LifecycleNode
 {
 public:
-  MyLifecycleServer();
+  MoveRobotServer();
 
   LifecycleCallbackReturn on_configure(const rclcpp_lifecycle::State & state);
   LifecycleCallbackReturn on_cleanup(const rclcpp_lifecycle::State & state);

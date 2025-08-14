@@ -1,14 +1,14 @@
-#ifndef MY_ROBOT_NODES__MY_SERVICE_CLIENT_HPP_
-#define MY_ROBOT_NODES__MY_SERVICE_CLIENT_HPP_
+#ifndef MY_ROBOT_NODES__VALIDATE_FISCAL_CODE_CLIENT_HPP_
+#define MY_ROBOT_NODES__VALIDATE_FISCAL_CODE_CLIENT_HPP_
 
 #include <rclcpp/rclcpp.hpp>
 
 #include "my_robot_interfaces/srv/validate_fiscal_code.hpp"
 
-class MyClientNode : public rclcpp::Node
+class ValidateFiscalCodeClient : public rclcpp::Node
 {
 public:
-  MyClientNode();
+  ValidateFiscalCodeClient();
 
   bool validateFiscalCode(const std::string & code);
 

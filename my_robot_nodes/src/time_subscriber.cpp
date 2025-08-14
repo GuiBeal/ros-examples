@@ -1,17 +1,17 @@
-#include "my_robot_nodes/my_topic_subscriber.hpp"
+#include "my_robot_nodes/time_subscriber.hpp"
 
 using namespace std::placeholders;
 
-MySubscriberNode::MySubscriberNode() : Node("my_subscriber")
+TimeSubscriber::TimeSubscriber() : Node("time_subscriber")
 {
   pSubscription_ = create_subscription<my_robot_interfaces::msg::Time>(
     topicName_, rclcpp::SystemDefaultsQoS(),
-    std::bind(&MySubscriberNode::cbSubscription, this, _1));
+    std::bind(&TimeSubscriber::cbSubscription, this, _1));
 
   RCLCPP_INFO(get_logger(), "My subscriber started.");
 }
 
-void MySubscriberNode::cbSubscription(const my_robot_interfaces::msg::Time::SharedPtr pMsg)
+void TimeSubscriber::cbSubscription(const my_robot_interfaces::msg::Time::SharedPtr pMsg)
 {
   // not sure how safe the following conversion is
   auto time = static_cast<std::time_t>(pMsg->data.sec);
@@ -26,7 +26,7 @@ void MySubscriberNode::cbSubscription(const my_robot_interfaces::msg::Time::Shar
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MySubscriberNode>());
+  rclcpp::spin(std::make_shared<TimeSubscriber>());
   rclcpp::shutdown();
   return 0;
 }

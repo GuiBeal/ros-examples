@@ -1,11 +1,11 @@
 <launch>
   <arg name="service_name" default="validate_fiscal_code" description="Service name" />
 
-  <node pkg="my_robot_nodes" exec="my_service_server">
+  <node pkg="my_robot_nodes" exec="validate_fiscal_code_server">
     <remap from="/validate_fiscal_code" to="/$(var service_name)" />
   </node>
 
-  <node pkg="my_robot_nodes" exec="my_service_client">
+  <node pkg="my_robot_nodes" exec="validate_fiscal_code_client">
     <remap from="/validate_fiscal_code" to="/$(var service_name)" />
   </node>
 </launch>

@@ -1,19 +1,19 @@
-#include "my_robot_nodes/my_service_server.hpp"
+#include "my_robot_nodes/validate_fiscal_code_server.hpp"
 
 #include <array>
 #include <regex>
 
 using namespace std::placeholders;
 
-MyServerNode::MyServerNode() : Node("my_service_server")
+ValidateFiscalCodeServer::ValidateFiscalCodeServer() : Node("validate_fiscal_code_server")
 {
   pServer_ = create_service<my_robot_interfaces::srv::ValidateFiscalCode>(
-    serviceName_, std::bind(&MyServerNode::cbService, this, _1, _2), rclcpp::ServicesQoS());
+    serviceName_, std::bind(&ValidateFiscalCodeServer::cbService, this, _1, _2), rclcpp::ServicesQoS());
 
   RCLCPP_INFO(get_logger(), "My service server started.");
 }
 
-void MyServerNode::cbService(
+void ValidateFiscalCodeServer::cbService(
   const my_robot_interfaces::srv::ValidateFiscalCode::Request::SharedPtr pRequest,
   const my_robot_interfaces::srv::ValidateFiscalCode::Response::SharedPtr pResponse)
 {  // validates brazilian CPF
@@ -64,7 +64,7 @@ void MyServerNode::cbService(
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<MyServerNode>());
+  rclcpp::spin(std::make_shared<ValidateFiscalCodeServer>());
   rclcpp::shutdown();
   return 0;
 }
